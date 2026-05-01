@@ -25,3 +25,29 @@ module tt_um_example (
   wire _unused = &{ena, clk, rst_n, 1'b0};
 
 endmodule
+module pwm_generator (
+    input wire [7:0] duty_c,
+    input wire clk,         
+    input wire rst,       
+    output reg pwm          
+);
+
+    reg [7:0] counter;     
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            counter <= 8'd0;
+            pwm <= 1'b0;
+        end else begin
+     
+            counter <= counter + 1'b1;
+
+            if (counter < duty_c) begin
+                pwm <= 1'b1;
+            end else begin
+                pwm <= 1'b0;
+            end
+        end
+    end
+
+endmodule
