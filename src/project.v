@@ -21,9 +21,9 @@ module tt_um_pwm (
   assign uio_out = 0;
   assign uio_oe  = 0;
     
-    // Unused bidirectional IOs
-    assign uio_out = 8'b0;
-    assign uio_oe  = 8'b0;
+  // Unused bidirectional IOs
+  assign uio_out = 8'b0;
+  assign uio_oe  = 8'b0;
 
     // Prevent unused warnings
     wire _unused = &{ena, uio_in, 1'b0};
