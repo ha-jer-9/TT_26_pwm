@@ -24,30 +24,30 @@ module tt_um_example (
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, clk, rst_n, 1'b0};
 
-endmodule
-module pwm_generator (
-    input wire [7:0] duty_c,
-    input wire clk,         
-    input wire rst,       
-    output reg pwm          
-);
 
-    reg [7:0] counter;     
+    reg [7:0] counter;
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
             counter <= 8'd0;
-            pwm <= 1'b0;
+            uo_out  <= 8'd0;
         end else begin
-     
             counter <= counter + 1'b1;
 
-            if (counter < duty_c) begin
-                pwm <= 1'b1;
-            end else begin
-                pwm <= 1'b0;
-            end
+            if (counter < ui_in)
+                uo_out <= 8'b00000001; // PWM HIGH on uo_out[0]
+            else
+                uo_out <= 8'b00000000; // PWM LOW
         end
     end
 
+    // Unused bidirectional IOs
+    assign uio_out = 8'b0;
+    assign uio_oe  = 8'b0;
+
+    // Prevent unused warnings
+    wire _unused = &{ena, uio_in, 1'b0};
+
 endmodule
+
+`default_nettype wire
