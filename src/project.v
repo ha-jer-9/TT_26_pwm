@@ -20,9 +20,13 @@ module tt_um_pwm (
   assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
   assign uio_out = 0;
   assign uio_oe  = 0;
+    
+    // Unused bidirectional IOs
+    assign uio_out = 8'b0;
+    assign uio_oe  = 8'b0;
 
-  // List all unused inputs to prevent warnings
-  wire _unused = &{ena,  1'b0};
+    // Prevent unused warnings
+    wire _unused = &{ena, uio_in, 1'b0};
 
 
     reg [7:0] counter;
@@ -41,13 +45,6 @@ module tt_um_pwm (
         end
     end
 
-    // Unused bidirectional IOs
-    assign uio_out = 8'b0;
-    assign uio_oe  = 8'b0;
-
-    // Prevent unused warnings
-    wire _unused = &{ena, uio_in, 1'b0};
 
 endmodule
 
-`default_nettype wire
